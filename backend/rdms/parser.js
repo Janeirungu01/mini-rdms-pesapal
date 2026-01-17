@@ -1,19 +1,14 @@
 function parse(sql) {
   sql = sql.trim();
+  const upper = sql.toUpperCase();
 
-  if (sql.startsWith("CREATE TABLE")) {
-    return { type: "CREATE", sql };
-  }
+  if (upper.startsWith("CREATE TABLE")) return { type: "CREATE", sql };
+  if (upper.startsWith("INSERT INTO")) return { type: "INSERT", sql };
+  if (upper.startsWith("SELECT")) return { type: "SELECT", sql };
+  if (upper.startsWith("UPDATE")) return { type: "UPDATE", sql };
+  if (upper.startsWith("DELETE")) return { type: "DELETE", sql };
 
-  if (sql.startsWith("INSERT INTO")) {
-    return { type: "INSERT", sql };
-  }
-
-  if (sql.startsWith("SELECT")) {
-    return { type: "SELECT", sql };
-  }
-
-  throw new Error("Unsupported query");
+  throw new Error("Unsupported query type");
 }
 
 module.exports = parse;
